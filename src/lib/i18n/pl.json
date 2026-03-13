@@ -16,7 +16,18 @@
     "last_checked": "Ostatnie sprawdzenie",
     "new_facts": "nowe",
     "facts": "faktow",
-    "refresh": "Odswiez"
+    "refresh": "Odswiez",
+    "search_placeholder": "Szukaj tematow...",
+    "filter_all": "Wszystkie",
+    "filter_active": "Aktywne",
+    "filter_paused": "Wstrzymane",
+    "filter_archived": "Zarchiwizowane",
+    "col_topic": "Temat",
+    "col_status": "Status",
+    "col_facts": "Fakty",
+    "col_frequency": "Czestotliwosc",
+    "col_last_checked": "Ostatnie sprawdzenie",
+    "no_results": "Brak tematow pasujacych do wyszukiwania."
   },
   "topic": {
     "check_now": "Sprawdz teraz",

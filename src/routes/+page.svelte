@@ -2,14 +2,18 @@
   import { onMount } from 'svelte';
   import { topicsStore } from '$lib/stores/topics.svelte';
   import { getTopics } from '$lib/api/topics';
-  import TopicCard from '$lib/components/TopicCard.svelte';
+  import type { TopicStatus } from '$lib/api/topics';
   import AddTopicModal from '$lib/components/AddTopicModal.svelte';
   import { t } from '$lib/i18n';
   import { consumePendingUrl } from '$lib/utils/share-target';
+  import { formatRelative, frequencyLabel } from '$lib/utils/dates';
+  import { goto } from '$app/navigation';
 
   let showModal = $state(false);
   let pendingUrl = $state('');
   let refreshing = $state(false);
+  let searchQuery = $state('');
+  let statusFilter = $state<'all' | TopicStatus>('all');
 
   // Pull-to-refresh
   let touchStartY = 0;
@@ -39,13 +43,35 @@
 
   onMount(() => {
     loadTopics();
-    // Handle URL shared via Web Share Target
     const shared = consumePendingUrl();
     if (shared) {
       pendingUrl = shared;
       showModal = true;
     }
   });
+
+  let filtered = $derived(() => {
+    let list = topicsStore.sorted;
+    if (statusFilter !== 'all') {
+      list = list.filter((t) => t.status === statusFilter);
+    }
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      list = list.filter(
+        (t) =>
+          t.title.toLowerCase().includes(q) ||
+          (t.description && t.description.toLowerCase().includes(q))
+      );
+    }
+    return list;
+  });
+
+  const statusFilters: { value: 'all' | TopicStatus; label: string }[] = [
+    { value: 'all', label: t('dashboard.filter_all') },
+    { value: 'active', label: t('dashboard.filter_active') },
+    { value: 'paused', label: t('dashboard.filter_paused') },
+    { value: 'archived', label: t('dashboard.filter_archived') }
+  ];
 </script>
 
 <svelte:head>
@@ -80,8 +106,6 @@
     <h1 class="font-display text-3xl font-medium text-[var(--text-1)]">
       {t('dashboard.title')}
     </h1>
-
-    <!-- Add button (desktop) -->
     <button
       onclick={() => (showModal = true)}
       class="btn btn-primary hidden sm:inline-flex"
@@ -97,12 +121,14 @@
 
   <!-- Loading skeletons -->
   {#if topicsStore.loading && topicsStore.list.length === 0}
-    <div class="space-y-3">
-      {#each Array(3) as _, i}
-        <div class="card p-4 space-y-2" aria-hidden="true">
-          <div class="skeleton h-5 w-3/4 rounded"></div>
-          <div class="skeleton h-4 w-full rounded"></div>
-          <div class="skeleton h-4 w-1/2 rounded"></div>
+    <div class="space-y-2" aria-hidden="true">
+      {#each Array(5) as _, i}
+        <div class="flex items-center gap-4 px-4 py-3 rounded-lg bg-[var(--surface-1)]">
+          <div class="skeleton h-4 w-2/5 rounded"></div>
+          <div class="skeleton h-4 w-16 rounded ml-auto"></div>
+          <div class="skeleton h-4 w-12 rounded"></div>
+          <div class="skeleton h-4 w-20 rounded hidden sm:block"></div>
+          <div class="skeleton h-4 w-24 rounded hidden md:block"></div>
         </div>
       {/each}
     </div>
@@ -141,15 +167,144 @@
       </button>
     </div>
 
-  <!-- Topic list -->
+  <!-- Table view -->
   {:else}
-    <div class="space-y-3 sm:grid sm:grid-cols-2 sm:gap-3 sm:space-y-0 lg:grid-cols-3">
-      {#each topicsStore.sorted as topic (topic.id)}
-        <div class="animate-slide-up">
-          <TopicCard {topic} />
-        </div>
-      {/each}
+    <!-- Search + filter bar -->
+    <div class="flex flex-col sm:flex-row gap-3 mb-4">
+      <div class="relative flex-1">
+        <svg
+          class="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-3)] pointer-events-none"
+          width="15" height="15" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <input
+          type="search"
+          bind:value={searchQuery}
+          placeholder={t('dashboard.search_placeholder')}
+          class="w-full pl-9 pr-4 py-2 rounded-lg bg-[var(--surface-1)] border border-[var(--border)]
+                 text-sm text-[var(--text-1)] placeholder:text-[var(--text-3)]
+                 focus:outline-none focus:ring-1 focus:ring-[var(--accent)]
+                 transition-colors duration-150"
+        />
+      </div>
+
+      <!-- Status filter tabs -->
+      <div class="flex gap-1 bg-[var(--surface-1)] rounded-lg p-1 border border-[var(--border)] self-start sm:self-auto">
+        {#each statusFilters as f}
+          <button
+            onclick={() => (statusFilter = f.value)}
+            class="px-3 py-1 rounded-md text-xs font-medium transition-colors duration-150
+                   {statusFilter === f.value
+                     ? 'bg-[var(--accent)] text-white'
+                     : 'text-[var(--text-2)] hover:text-[var(--text-1)]'}"
+          >
+            {f.label}
+          </button>
+        {/each}
+      </div>
     </div>
+
+    <!-- Table -->
+    {#if filtered().length === 0}
+      <p class="text-center text-[var(--text-3)] py-12 text-sm">{t('dashboard.no_results')}</p>
+    {:else}
+      <div class="overflow-x-auto rounded-lg border border-[var(--border)]">
+        <table class="w-full text-sm border-collapse">
+          <thead>
+            <tr class="border-b border-[var(--border)] bg-[var(--surface-1)]">
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-full">
+                {t('dashboard.col_topic')}
+              </th>
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap">
+                {t('dashboard.col_status')}
+              </th>
+              <th class="text-right px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap">
+                {t('dashboard.col_facts')}
+              </th>
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap hidden sm:table-cell">
+                {t('dashboard.col_frequency')}
+              </th>
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap hidden md:table-cell">
+                {t('dashboard.col_last_checked')}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each filtered() as topic (topic.id)}
+              <tr
+                class="border-b border-[var(--border)] last:border-0
+                       cursor-pointer transition-colors duration-100
+                       hover:bg-[var(--surface-1)] active:bg-[var(--surface-2)]
+                       {topic.has_update ? 'bg-[color-mix(in_srgb,var(--pulse)_4%,transparent)]' : 'bg-transparent'}"
+                onclick={() => goto(`/topic/${topic.id}`)}
+                onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && goto(`/topic/${topic.id}`)}
+                role="link"
+                tabindex="0"
+                aria-label={topic.title}
+              >
+                <!-- Topic title + description -->
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-2 min-w-0">
+                    {#if topic.has_update}
+                      <span
+                        class="shrink-0 w-1.5 h-1.5 rounded-full bg-[var(--pulse)] animate-pulse-dot"
+                        aria-label="Has new updates"
+                      ></span>
+                    {/if}
+                    <div class="min-w-0">
+                      <p class="font-medium text-[var(--text-1)] truncate leading-snug">
+                        {topic.title}
+                      </p>
+                      {#if topic.description}
+                        <p class="text-xs text-[var(--text-3)] truncate mt-0.5 leading-relaxed max-w-sm">
+                          {topic.description}
+                        </p>
+                      {/if}
+                    </div>
+                  </div>
+                </td>
+
+                <!-- Status -->
+                <td class="px-4 py-3 whitespace-nowrap">
+                  {#if topic.status === 'active'}
+                    <span class="inline-flex items-center gap-1 text-[var(--accent-light)] text-xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-light)] inline-block"></span>
+                      {t('topic.status_active')}
+                    </span>
+                  {:else if topic.status === 'paused'}
+                    <span class="badge badge-paused text-xs">{t('topic.status_paused')}</span>
+                  {:else}
+                    <span class="text-[var(--text-3)] text-xs">{t('topic.status_archived')}</span>
+                  {/if}
+                </td>
+
+                <!-- Facts -->
+                <td class="px-4 py-3 whitespace-nowrap text-right text-mono text-[var(--text-2)]">
+                  {topic.facts_count}
+                  {#if topic.new_facts_count > 0}
+                    <span class="badge badge-new ml-1">+{topic.new_facts_count}</span>
+                  {/if}
+                </td>
+
+                <!-- Frequency -->
+                <td class="px-4 py-3 whitespace-nowrap text-mono text-[var(--text-3)] hidden sm:table-cell">
+                  {frequencyLabel(topic.check_frequency_days)}
+                </td>
+
+                <!-- Last checked -->
+                <td class="px-4 py-3 whitespace-nowrap text-mono text-[var(--text-3)] hidden md:table-cell">
+                  {formatRelative(topic.last_checked_at)}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
+    {/if}
   {/if}
 </div>
 

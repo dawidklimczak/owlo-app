@@ -16,7 +16,18 @@
     "last_checked": "Last checked",
     "new_facts": "new",
     "facts": "facts",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "search_placeholder": "Search topics...",
+    "filter_all": "All",
+    "filter_active": "Active",
+    "filter_paused": "Paused",
+    "filter_archived": "Archived",
+    "col_topic": "Topic",
+    "col_status": "Status",
+    "col_facts": "Facts",
+    "col_frequency": "Frequency",
+    "col_last_checked": "Last checked",
+    "no_results": "No topics match your search."
   },
   "topic": {
     "check_now": "Check now",
