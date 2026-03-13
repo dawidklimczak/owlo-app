@@ -13,7 +13,7 @@ ARG PUBLIC_API_URL
 ARG PUBLIC_APP_URL
 ARG PUBLIC_GOOGLE_CLIENT_ID
 
-RUN npm run build
+RUN npx vite build
 
 # ---- Runtime stage ----
 FROM node:20-alpine
