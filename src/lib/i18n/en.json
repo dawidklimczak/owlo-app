@@ -1,0 +1,101 @@
+{
+  "app": {
+    "name": "owlo",
+    "tagline": "Track news as it develops"
+  },
+  "nav": {
+    "topics": "Topics",
+    "settings": "Settings",
+    "logout": "Sign out"
+  },
+  "dashboard": {
+    "title": "Your Topics",
+    "empty_title": "Nothing tracked yet",
+    "empty_body": "Paste a news article URL to start tracking how the story develops.",
+    "add_topic": "Add topic",
+    "last_checked": "Last checked",
+    "new_facts": "new",
+    "facts": "facts",
+    "refresh": "Refresh"
+  },
+  "topic": {
+    "check_now": "Check now",
+    "check_now_cost": "Check now (1 credit)",
+    "original_article": "Original article",
+    "facts_timeline": "Timeline",
+    "initial_facts": "At the start",
+    "discovered": "Discovered",
+    "no_facts": "No facts yet",
+    "frequency": "Check frequency",
+    "pause": "Pause tracking",
+    "resume": "Resume tracking",
+    "archive": "Archive topic",
+    "delete": "Delete topic",
+    "delete_confirm": "Delete this topic? This cannot be undone.",
+    "check_history": "Check history",
+    "no_history": "No checks yet",
+    "context": "Context",
+    "status_active": "Active",
+    "status_paused": "Paused",
+    "status_archived": "Archived",
+    "back": "Back",
+    "mark_read": "Mark as read"
+  },
+  "add_topic": {
+    "title": "Add topic",
+    "step_url": "Paste article URL",
+    "step_choose": "Choose a topic",
+    "step_confirm": "Topic added",
+    "url_placeholder": "https://example.com/article",
+    "url_submit": "Analyze",
+    "choose_instruction": "Select the topic you want to track:",
+    "confirm_message": "We will check for updates every {days} days.",
+    "confirm_back": "Back to topics",
+    "add_another": "Add another",
+    "loading": "Analyzing article..."
+  },
+  "auth": {
+    "login_title": "Sign in to owlo",
+    "login_subtitle": "Track news stories as they develop",
+    "google": "Continue with Google",
+    "magic_link": "Continue with email",
+    "email_placeholder": "your@email.com",
+    "send_link": "Send magic link",
+    "link_sent": "Check your inbox",
+    "link_sent_body": "We sent a sign-in link to {email}. Check your spam folder if it doesn't arrive.",
+    "verifying": "Signing you in...",
+    "verify_error": "This link is invalid or expired.",
+    "back_to_login": "Back to sign in"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "default_frequency": "Default check frequency",
+    "credits": "Credits",
+    "credits_balance": "Balance",
+    "credits_history": "Usage history",
+    "credits_empty": "No credits used yet",
+    "account": "Account",
+    "email": "Email",
+    "save": "Save changes",
+    "saved": "Saved",
+    "delete_account": "Delete account",
+    "delete_confirm": "Delete your account and all data? This cannot be undone.",
+    "frequency_3": "Every 3 days",
+    "frequency_7": "Every week",
+    "frequency_14": "Every 2 weeks",
+    "frequency_30": "Every month"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "no_credits": "You don't have enough credits for this action.",
+    "rate_limit": "Too many requests — please wait a moment.",
+    "network": "Connection error. Check your network and try again.",
+    "not_found": "Not found.",
+    "retry": "Try again"
+  },
+  "share_target": {
+    "processing": "Opening article...",
+    "login_required": "Sign in to add this article"
+  }
+}

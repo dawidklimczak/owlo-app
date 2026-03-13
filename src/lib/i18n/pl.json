@@ -1,0 +1,101 @@
+{
+  "app": {
+    "name": "owlo",
+    "tagline": "Sledz rozwoj wydarzen"
+  },
+  "nav": {
+    "topics": "Tematy",
+    "settings": "Ustawienia",
+    "logout": "Wyloguj"
+  },
+  "dashboard": {
+    "title": "Twoje tematy",
+    "empty_title": "Brak sledzonych tematow",
+    "empty_body": "Wklej URL artykulu, aby zaczac sledzic, jak rozwija sie dana historia.",
+    "add_topic": "Dodaj temat",
+    "last_checked": "Ostatnie sprawdzenie",
+    "new_facts": "nowe",
+    "facts": "faktow",
+    "refresh": "Odswiez"
+  },
+  "topic": {
+    "check_now": "Sprawdz teraz",
+    "check_now_cost": "Sprawdz teraz (1 kredyt)",
+    "original_article": "Oryginalny artykul",
+    "facts_timeline": "Oś czasu",
+    "initial_facts": "Poczatkowe fakty",
+    "discovered": "Odkryte",
+    "no_facts": "Brak faktow",
+    "frequency": "Czestotliwosc sprawdzania",
+    "pause": "Wstrzymaj",
+    "resume": "Wznow",
+    "archive": "Zarchiwizuj",
+    "delete": "Usun temat",
+    "delete_confirm": "Usunac temat? Tej operacji nie mozna cofnac.",
+    "check_history": "Historia sprawdzen",
+    "no_history": "Brak sprawdzen",
+    "context": "Kontekst",
+    "status_active": "Aktywny",
+    "status_paused": "Wstrzymany",
+    "status_archived": "Zarchiwizowany",
+    "back": "Wróć",
+    "mark_read": "Oznacz jako przeczytane"
+  },
+  "add_topic": {
+    "title": "Dodaj temat",
+    "step_url": "Wklej URL artykulu",
+    "step_choose": "Wybierz temat",
+    "step_confirm": "Temat dodany",
+    "url_placeholder": "https://przyklad.pl/artykul",
+    "url_submit": "Analizuj",
+    "choose_instruction": "Wybierz temat, ktory chcesz sledzic:",
+    "confirm_message": "Bedziemy sprawdzac aktualizacje co {days} dni.",
+    "confirm_back": "Wróć do tematow",
+    "add_another": "Dodaj kolejny",
+    "loading": "Analizowanie artykulu..."
+  },
+  "auth": {
+    "login_title": "Zaloguj sie do owlo",
+    "login_subtitle": "Sledz rozwoj waznych historii",
+    "google": "Kontynuuj z Google",
+    "magic_link": "Kontynuuj przez email",
+    "email_placeholder": "twoj@email.pl",
+    "send_link": "Wyslij link",
+    "link_sent": "Sprawdz skrzynke",
+    "link_sent_body": "Wyslalismy link logowania na {email}. Sprawdz folder spam jesli nie otrzymasz wiadomosci.",
+    "verifying": "Logowanie...",
+    "verify_error": "Ten link jest nieprawidlowy lub wygas.",
+    "back_to_login": "Wróć do logowania"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language": "Jezyk",
+    "default_frequency": "Domyslna czestotliwosc",
+    "credits": "Kredyty",
+    "credits_balance": "Saldo",
+    "credits_history": "Historia zuzycia",
+    "credits_empty": "Brak zuzycia kredytow",
+    "account": "Konto",
+    "email": "Email",
+    "save": "Zapisz zmiany",
+    "saved": "Zapisano",
+    "delete_account": "Usun konto",
+    "delete_confirm": "Usunac konto i wszystkie dane? Tej operacji nie mozna cofnac.",
+    "frequency_3": "Co 3 dni",
+    "frequency_7": "Co tydzien",
+    "frequency_14": "Co 2 tygodnie",
+    "frequency_30": "Co miesiac"
+  },
+  "errors": {
+    "generic": "Cos poszlo nie tak. Sprobuj ponownie.",
+    "no_credits": "Nie masz wystarczajaco kredytow.",
+    "rate_limit": "Zbyt wiele zapytan — poczekaj chwile.",
+    "network": "Blad polaczenia. Sprawdz siec i sprobuj ponownie.",
+    "not_found": "Nie znaleziono.",
+    "retry": "Sprobuj ponownie"
+  },
+  "share_target": {
+    "processing": "Otwieranie artykulu...",
+    "login_required": "Zaloguj sie, aby dodac ten artykul"
+  }
+}
