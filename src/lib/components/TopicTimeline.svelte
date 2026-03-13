@@ -4,10 +4,10 @@
   import { t } from '$lib/i18n';
 
   interface Props {
-    facts: Fact[];
+    facts?: Fact[];
   }
 
-  let { facts }: Props = $props();
+  let { facts = [] }: Props = $props();
 
   let initialFacts = $derived(facts.filter((f) => f.is_initial));
   let discoveredFacts = $derived(

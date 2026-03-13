@@ -239,7 +239,7 @@
     </div>
 
     <!-- Check history (collapsible) -->
-    {#if topic.check_history.length > 0}
+    {#if topic.check_history?.length > 0}
       <div class="mb-6">
         <button
           onclick={() => (showHistory = !showHistory)}
