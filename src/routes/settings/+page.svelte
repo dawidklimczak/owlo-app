@@ -166,14 +166,14 @@
           </h3>
           <div class="space-y-1">
             {#each credits.history as entry (entry.id)}
-              <div class="flex items-center justify-between py-2 border-b border-[var(--border)]">
-                <div>
+              <div class="flex items-start justify-between py-2 border-b border-[var(--border)] gap-3">
+                <div class="min-w-0">
                   <span class="text-sm text-[var(--text-1)]">{entry.action}</span>
                   {#if entry.topic_title}
-                    <span class="text-xs text-[var(--text-3)] ml-2">{entry.topic_title}</span>
+                    <span class="text-xs text-[var(--text-3)] ml-2 block sm:inline truncate">{entry.topic_title}</span>
                   {/if}
                 </div>
-                <div class="flex items-center gap-3">
+                <div class="flex items-center gap-3 shrink-0">
                   <span class="text-mono text-sm text-danger">-{entry.amount}</span>
                   <time class="text-mono text-xs text-[var(--text-3)]">
                     {formatDate(entry.created_at)}

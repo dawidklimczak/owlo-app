@@ -193,7 +193,7 @@
       </div>
 
       <!-- Status filter tabs -->
-      <div class="flex gap-1 bg-[var(--surface-1)] rounded-lg p-1 border border-[var(--border)] self-start sm:self-auto">
+      <div class="flex gap-1 bg-[var(--surface-1)] rounded-lg p-1 border border-[var(--border)] self-start sm:self-auto overflow-x-auto shrink-0">
         {#each statusFilters as f}
           <button
             onclick={() => (statusFilter = f.value)}
@@ -219,7 +219,7 @@
               <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-full">
                 {t('dashboard.col_topic')}
               </th>
-              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap">
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap hidden sm:table-cell">
                 {t('dashboard.col_status')}
               </th>
               <th class="text-right px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap">
@@ -269,7 +269,7 @@
                 </td>
 
                 <!-- Status -->
-                <td class="px-4 py-3 whitespace-nowrap">
+                <td class="px-4 py-3 whitespace-nowrap hidden sm:table-cell">
                   {#if topic.status === 'active'}
                     <span class="inline-flex items-center gap-1 text-[var(--accent-light)] text-xs">
                       <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-light)] inline-block"></span>

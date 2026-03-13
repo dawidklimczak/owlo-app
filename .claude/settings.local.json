@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /d/Projekty/Moje/PulseFeed/app/src/routes -name \"*.svelte\" | xargs grep -l \"overflow\\\\|scroll\\\\|width\\\\|flex\\\\|grid\" 2>/dev/null | head -10)"
+    ]
+  }
+}

@@ -177,7 +177,7 @@
         href={topic.source_url}
         target="_blank"
         rel="noopener noreferrer"
-        class="hover:text-[var(--accent-light)] transition-colors underline underline-offset-2 ml-auto"
+        class="hover:text-[var(--accent-light)] transition-colors underline underline-offset-2 sm:ml-auto"
       >
         {t('topic.original_article')} →
       </a>
@@ -265,8 +265,8 @@
         {#if showHistory}
           <div class="mt-3 space-y-1 pl-4 border-l border-[var(--border)] animate-slide-up">
             {#each topic.check_history as run (run.id)}
-              <div class="flex items-center justify-between text-sm py-1.5">
-                <time class="text-mono text-[var(--text-3)]">{formatDate(run.ran_at)}</time>
+              <div class="flex items-center justify-between text-sm py-1.5 gap-3">
+                <time class="text-mono text-[var(--text-3)] shrink-0">{formatDate(run.ran_at)}</time>
                 <span
                   class="{run.status === 'success'
                     ? 'text-[var(--pulse)]'
