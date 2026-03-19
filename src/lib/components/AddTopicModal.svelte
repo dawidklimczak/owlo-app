@@ -63,7 +63,7 @@
     try {
       const proposal_index = proposals.indexOf(proposal);
       const topic = await confirmTopic({
-        url: url.trim(),
+        source: url.trim(),
         proposal_index,
         check_interval_days: confirmedFrequency
       });

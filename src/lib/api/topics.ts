@@ -50,7 +50,7 @@ export interface SubmitUrlResponse {
 }
 
 export interface ConfirmTopicRequest {
-  url: string;
+  source: string;
   proposal_index: number;
   check_interval_days?: number;
 }
