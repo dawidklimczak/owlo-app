@@ -4,6 +4,7 @@
   import { getTopics } from '$lib/api/topics';
   import type { TopicStatus } from '$lib/api/topics';
   import AddTopicModal from '$lib/components/AddTopicModal.svelte';
+  import TopicCard from '$lib/components/TopicCard.svelte';
   import { t } from '$lib/i18n';
   import { consumePendingUrl } from '$lib/utils/share-target';
   import { formatRelative, frequencyLabel } from '$lib/utils/dates';
@@ -208,27 +209,35 @@
       </div>
     </div>
 
-    <!-- Table -->
+    <!-- Results -->
     {#if filtered().length === 0}
       <p class="text-center text-[var(--text-3)] py-12 text-sm">{t('dashboard.no_results')}</p>
     {:else}
-      <div class="overflow-x-auto rounded-lg border border-[var(--border)]">
-        <table class="w-full text-sm border-collapse">
+      <!-- Mobile: card list -->
+      <div class="sm:hidden space-y-2">
+        {#each filtered() as topic (topic.id)}
+          <TopicCard {topic} />
+        {/each}
+      </div>
+
+      <!-- Desktop: table -->
+      <div class="hidden sm:block rounded-lg border border-[var(--border)]">
+        <table class="w-full table-fixed text-sm border-collapse">
           <thead>
             <tr class="border-b border-[var(--border)] bg-[var(--surface-1)]">
-              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-full">
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider">
                 {t('dashboard.col_topic')}
               </th>
-              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap hidden sm:table-cell">
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-24">
                 {t('dashboard.col_status')}
               </th>
-              <th class="text-right px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap">
+              <th class="text-right px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-20">
                 {t('dashboard.col_facts')}
               </th>
-              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap hidden sm:table-cell">
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-32">
                 {t('dashboard.col_frequency')}
               </th>
-              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider whitespace-nowrap hidden md:table-cell">
+              <th class="text-left px-4 py-2.5 text-xs font-medium text-[var(--text-3)] uppercase tracking-wider w-36 hidden md:table-cell">
                 {t('dashboard.col_last_checked')}
               </th>
             </tr>
@@ -247,7 +256,7 @@
                 aria-label={topic.title}
               >
                 <!-- Topic title + description -->
-                <td class="px-4 py-3">
+                <td class="px-4 py-3 min-w-0">
                   <div class="flex items-center gap-2 min-w-0">
                     {#if topic.has_update}
                       <span
@@ -255,12 +264,12 @@
                         aria-label="Has new updates"
                       ></span>
                     {/if}
-                    <div class="min-w-0">
+                    <div class="min-w-0 overflow-hidden">
                       <p class="font-medium text-[var(--text-1)] truncate leading-snug">
                         {topic.title}
                       </p>
                       {#if topic.description}
-                        <p class="text-xs text-[var(--text-3)] truncate mt-0.5 leading-relaxed max-w-sm">
+                        <p class="text-xs text-[var(--text-3)] truncate mt-0.5 leading-relaxed">
                           {topic.description}
                         </p>
                       {/if}
@@ -269,7 +278,7 @@
                 </td>
 
                 <!-- Status -->
-                <td class="px-4 py-3 whitespace-nowrap hidden sm:table-cell">
+                <td class="px-4 py-3 whitespace-nowrap">
                   {#if topic.status === 'active'}
                     <span class="inline-flex items-center gap-1 text-[var(--accent-light)] text-xs">
                       <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent-light)] inline-block"></span>
@@ -291,7 +300,7 @@
                 </td>
 
                 <!-- Frequency -->
-                <td class="px-4 py-3 whitespace-nowrap text-mono text-[var(--text-3)] hidden sm:table-cell">
+                <td class="px-4 py-3 whitespace-nowrap text-mono text-[var(--text-3)]">
                   {frequencyLabel(topic.check_frequency_days)}
                 </td>
 

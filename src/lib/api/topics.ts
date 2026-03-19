@@ -75,6 +75,13 @@ export async function submitUrl(url: string): Promise<SubmitUrlResponse> {
   });
 }
 
+export async function submitQuery(query: string): Promise<SubmitUrlResponse> {
+  return apiFetch<SubmitUrlResponse>('/topics/manual', {
+    method: 'POST',
+    body: { query }
+  });
+}
+
 export async function confirmTopic(request: ConfirmTopicRequest): Promise<Topic> {
   return apiFetch<Topic>('/topics/confirm', {
     method: 'POST',

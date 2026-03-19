@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { TopicProposal } from '$lib/api/topics';
-  import { submitUrl, confirmTopic } from '$lib/api/topics';
+  import { submitUrl, submitQuery, confirmTopic } from '$lib/api/topics';
   import { topicsStore } from '$lib/stores/topics.svelte';
   import { t } from '$lib/i18n';
   import TopicChoiceStep from './TopicChoiceStep.svelte';
@@ -22,13 +22,26 @@
   let confirmedTitle = $state('');
   let confirmedFrequency = $state(7);
 
+  function isUrl(value: string): boolean {
+    return value.startsWith('http://') || value.startsWith('https://');
+  }
+
+  function isValidInput(value: string): boolean {
+    const v = value.trim();
+    if (!v) return false;
+    return isUrl(v) ? true : v.length >= 3;
+  }
+
   async function handleSubmitUrl(e: SubmitEvent) {
     e.preventDefault();
-    if (!url.trim()) return;
+    const value = url.trim();
+    if (!isValidInput(value)) return;
     loading = true;
     error = '';
     try {
-      const result = await submitUrl(url.trim());
+      const result = isUrl(value)
+        ? await submitUrl(value)
+        : await submitQuery(value);
       proposals = result.proposals;
 
       if (proposals.length === 1) {
@@ -113,12 +126,11 @@
         <label for="article-url" class="sr-only">{t('add_topic.url_placeholder')}</label>
         <input
           id="article-url"
-          type="url"
+          type="text"
           bind:value={url}
           placeholder={t('add_topic.url_placeholder')}
           class="input"
           disabled={loading}
-          required
           autofocus
         />
 
@@ -129,7 +141,7 @@
         <button
           type="submit"
           class="btn btn-primary w-full py-3"
-          disabled={loading || !url.trim()}
+          disabled={loading || !isValidInput(url)}
         >
           {#if loading}
             <svg class="animate-spin-slow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">

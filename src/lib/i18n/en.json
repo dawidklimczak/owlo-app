@@ -54,16 +54,16 @@
   },
   "add_topic": {
     "title": "Add topic",
-    "step_url": "Paste article URL",
+    "step_url": "Paste a link or describe a topic",
     "step_choose": "Choose a topic",
     "step_confirm": "Topic added",
-    "url_placeholder": "https://example.com/article",
+    "url_placeholder": "Paste article link or describe a topic...",
     "url_submit": "Analyze",
     "choose_instruction": "Select the topic you want to track:",
     "confirm_message": "We will check for updates every {days} days.",
     "confirm_back": "Back to topics",
     "add_another": "Add another",
-    "loading": "Analyzing article..."
+    "loading": "Analyzing..."
   },
   "auth": {
     "login_title": "Sign in to owlo",
