@@ -1,5 +1,7 @@
 # Owlo App
 
+> **Work in progress.** This is a personal side project, not a finished or maintained product — expect rough edges and missing pieces.
+
 SvelteKit PWA frontend for Owlo — a service that tracks how a specific news story develops over time. See [owlo-api](https://github.com/dawidklimczak/owlo-api) for the backend and the product idea in more detail.
 
 ## What it does
